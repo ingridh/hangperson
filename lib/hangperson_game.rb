@@ -5,6 +5,12 @@ class HangpersonGame
 
   # Get a word from remote "random word" service
 
+  class describe
+  		attr_accessor :word
+  		attr_accessor :guesses
+  		attr_accessor :wrong_guesses
+  end
+
   def self.get_random_word
     require 'uri'
     require 'net/http'
