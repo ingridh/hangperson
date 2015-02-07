@@ -70,7 +70,7 @@ describe HangpersonGame do
         expect { @game.guess('%') }.to raise_error(ArgumentError)
       end
       it 'throws an error when nil', :pending => true do
-        expect { @game.guess('%') }.to raise_error(ArgumentError)
+        expect { @game.guess(nil) }.to raise_error(ArgumentError)
       end
     end
   end
