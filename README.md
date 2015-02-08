@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Hangperson: a scaffolded (!) ESaaS getting-started assignment
 =============================================================
 

@@ -4,13 +4,64 @@ class HangpersonGame
   # to make the tests in spec/hangperson_game_spec.rb pass.
 
   # Get a word from remote "random word" service
+attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses, :turns
+	def initialize(word)
+	    @word = word
+	    @guesses = ""
+	    @wrong_guesses= ""
+	    @prevguesses = []
+	    @word_with_guesses = ""
+	    setup
+	    @turns = 0
+	end
 
-  class describe
-  		attr_accessor :word
-  		attr_accessor :guesses
-  		attr_accessor :wrong_guesses
-  end
+	def setup
+		@word.length.times {
+			@word_with_guesses = @word_with_guesses + "-"
+		}
+	end
 
+	def guess(input)
+		# checking the input then (3) pushes the new input in array
+		# (1)if input exists
+		# (2)if input contains only letters
+		if input == "" or input == nil
+			raise ArgumentError.new("need an input")
+		elsif input[/[a-zA-Z]+/] != input
+			raise ArgumentError.new("input needs to be a letter")
+		elsif @prevguesses.include?(input)
+		 	return false
+		else 
+			@prevguesses.push(input)
+		end
+		
+		# changing guesses/wrong_guesses
+		if @word.include?(input)
+			@guesses = input
+			indexes = (0 ... @word.length).find_all { |i| @word[i,1] == input }
+			for i in indexes
+				@word_with_guesses[i] = input
+			end
+		else
+			@turns +=1
+			@wrong_guesses = input
+		end
+	end
+
+	def check_win_or_lose
+		if not @word_with_guesses.include?("-")
+			return :win
+		elsif @turns > 6
+			return :lose
+		else
+			return :play
+		end
+	end
+
+
+
+
+	
   def self.get_random_word
     require 'uri'
     require 'net/http'
@@ -19,3 +70,5 @@ class HangpersonGame
   end
 
 end
+
+
