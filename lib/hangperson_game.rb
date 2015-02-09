@@ -4,7 +4,7 @@ class HangpersonGame
   # to make the tests in spec/hangperson_game_spec.rb pass.
 
   # Get a word from remote "random word" service
-attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses, :turns, :invalid
+attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses, :turns
 	def initialize(word)
 	    @word = word
 	    @guesses = ""
@@ -13,7 +13,6 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 	    @word_with_guesses = ""
 	    setup
 	    @turns = 0
-	    @invalid = false
 	end
 
 	def setup
@@ -27,7 +26,6 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 		# (1)if input exists
 		# (2)if input contains only letters
 		if input == nil or not /^\s*[a-zA-Z]\s*$/.match(input)
-		 	@invalid = true
 			begin
 				raise ArgumentError, "need a valid input"
 			rescue
@@ -65,6 +63,16 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 			return :play
 		end
 	end
+
+	def check_if_invalid(theletter)
+		if theletter == nil or not /^\s*[a-zA-Z]\s*$/.match(theletter)
+			return true
+		else
+			return false
+		end
+	end
+
+
 
   def self.get_random_word
     require 'uri'
