@@ -1,7 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/flash'
 require './lib/hangperson_game.rb'
-#http://whatstheword.heroku.com/
+#http://whatstheword.herokuapp.com/
 class HangpersonApp < Sinatra::Base
 
   enable :sessions
@@ -41,6 +41,7 @@ class HangpersonApp < Sinatra::Base
     letter = params[:guess].to_s[0]
     if @game.invalid
       flash[:message] = "Invalid guess."
+      @game.invalid = false
     elsif not @game.guess(letter)   
       flash[:message] = "You have already used that letter."
     else

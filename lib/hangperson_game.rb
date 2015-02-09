@@ -26,15 +26,22 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 		# checking the input then (3) pushes the new input in array
 		# (1)if input exists
 		# (2)if input contains only letters
-		if not input or not /^\s*[a-zA-Z]\s*$/.match(input)
-			@invalid = true
-			raise ArgumentError.new("need a valid input")
-		elsif @prevguesses.include?(input)
-		 	return false
-		else 
-			@prevguesses.push(input)
+		if input == nil or not /^\s*[a-zA-Z]\s*$/.match(input)
+		 	@invalid = true
+			begin
+				raise ArgumentError, "need a valid input"
+			rescue
+				input = ""
+			end
+		else
+			input.downcase!
+			if @prevguesses.include?(input)
+		 		return false
+			else 
+				@prevguesses.push(input)
+			end
 		end
-		
+	
 		# changing guesses/wrong_guesses
 		if @word.include?(input)
 			@guesses = input
