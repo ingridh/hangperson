@@ -36,6 +36,7 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 		end
 		
 		# changing guesses/wrong_guesses
+
 		if @word.include?(input)
 			@guesses = input
 			indexes = (0 ... @word.length).find_all { |i| @word[i,1] == input }
@@ -44,8 +45,9 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 			end
 		else
 			@turns +=1
-			@wrong_guesses = input
+			@wrong_guesses = @wrong_guesses + input
 		end
+		return true
 	end
 
 	def check_win_or_lose
@@ -58,10 +60,6 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 		end
 	end
 
-
-
-
-	
   def self.get_random_word
     require 'uri'
     require 'net/http'
