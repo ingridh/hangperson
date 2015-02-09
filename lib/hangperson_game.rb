@@ -4,7 +4,7 @@ class HangpersonGame
   # to make the tests in spec/hangperson_game_spec.rb pass.
 
   # Get a word from remote "random word" service
-attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses, :turns
+attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses, :turns, :invalid
 	def initialize(word)
 	    @word = word
 	    @guesses = ""
@@ -13,6 +13,7 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 	    @word_with_guesses = ""
 	    setup
 	    @turns = 0
+	    @invalid = false
 	end
 
 	def setup
@@ -25,12 +26,9 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 		# checking the input then (3) pushes the new input in array
 		# (1)if input exists
 		# (2)if input contains only letters
-		if input == "" or input == nil
-			raise ArgumentError.new("need an input")
-			return true
-		elsif input[/[a-zA-Z]+/] != input
-			raise ArgumentError.new("input needs to be a letter")
-			return true
+		if not input or not /^\s*[a-zA-Z]\s*$/.match(input)
+			@invalid = true
+			raise ArgumentError.new("need a valid input")
 		elsif @prevguesses.include?(input)
 		 	return false
 		else 
@@ -38,7 +36,6 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 		end
 		
 		# changing guesses/wrong_guesses
-
 		if @word.include?(input)
 			@guesses = input
 			indexes = (0 ... @word.length).find_all { |i| @word[i,1] == input }
@@ -49,6 +46,7 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 			@turns +=1
 			@wrong_guesses = @wrong_guesses + input
 		end
+		return true
 	end
 
 	def check_win_or_lose
