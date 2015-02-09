@@ -27,8 +27,10 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 		# (2)if input contains only letters
 		if input == "" or input == nil
 			raise ArgumentError.new("need an input")
+			return true
 		elsif input[/[a-zA-Z]+/] != input
 			raise ArgumentError.new("input needs to be a letter")
+			return true
 		elsif @prevguesses.include?(input)
 		 	return false
 		else 
@@ -47,7 +49,6 @@ attr_accessor :word, :guesses, :wrong_guesses, :prevguesses, :word_with_guesses,
 			@turns +=1
 			@wrong_guesses = @wrong_guesses + input
 		end
-		return true
 	end
 
 	def check_win_or_lose
